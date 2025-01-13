@@ -3,8 +3,15 @@ import { Card, CardContent } from "@/components/ui/card";
 import { getProductsBySlug } from "@/lib/actions/product.actions";
 import { Badge } from "@/components/ui/badge";
 import { notFound } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import ProductImages from "@/components/shared/product/product-images";
+import AddToCart from "@/components/shared/product/add-to-cart";
+import { getMyCart } from "@/lib/actions/cart.actions";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Product Detail",
+};
+
 
 const ProductDetailPage = async (props: {
   params: Promise<{ slug: string }>;
@@ -15,9 +22,12 @@ const ProductDetailPage = async (props: {
   if (!product) {
     notFound();
   }
+
+  const cart = await getMyCart();
+
   return (
     <section>
-      <div className="grid gird-cols-1 md:grid-cols-5">
+      <div className="grid grid-cols-1 md:grid-cols-5">
         <div className="col-span-2">
           <ProductImages images={product.images} />
         </div>
@@ -43,7 +53,7 @@ const ProductDetailPage = async (props: {
           </div>
         </div>
         {/* Action  Column */}
-        <div>
+        <div className="w-full">
           <Card>
             <CardContent className="p-4">
               <div className="mb-2 flex justify-between">
@@ -64,7 +74,16 @@ const ProductDetailPage = async (props: {
 
               {product.stock > 0 && (
                 <div className="flex-center">
-                  <Button className="w-full">Add to Cart</Button>
+                <AddToCart 
+                cart={cart}
+                item={{
+                  name:product.name,
+                  price: product.price,
+                  slug: product.slug,
+                  productId: product.id,
+                  qty: 1,
+                  image: product.images[0]
+                }} />
                 </div>
               )}
             </CardContent>

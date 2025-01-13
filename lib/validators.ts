@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { formatNumberWithDecimal } from "./utils";
+import { PAYMENT_METHODS } from "./constant";
 
 export const currency = z
   .string()
@@ -59,3 +60,57 @@ export const insertCartSchema = z.object({
     sessionCartId:z.string().min(1,'Session cart id is required'),
     userId:z.string().optional().nullable()
 })
+
+export const shippingAddressSchema = z.object({
+  fullName:z.string().min(3,"Character must be greater than 3"),
+  streetAddress:z.string().min(3,"Street Address must be greater than 3"),
+  city:z.string().min(3,"City must be greater than 3"),
+  country:z.string().min(3,"Country must be greater than 3"),
+  postalCode:z.string().min(3,"Postal Code must be greater than 3"),
+  lat:z.number().optional(),
+  lng:z.number().optional(),
+})
+
+export const paymentMethodSchema = z.object({
+  type:z.string().min(1,'Payment Method Is Required')
+}).refine((data)=>PAYMENT_METHODS.includes(data.type),{
+  path:['type'],
+  message:"Invalid Payment Method"
+})
+
+// Schema for inserting order
+export const insertOrderSchema = z.object({
+  userId: z.string().min(1, 'User is required'),
+  itemsPrice: currency,
+  shippingPrice: currency,
+  taxPrice: currency,
+  totalPrice: currency,
+  paymentMethod: z.string().refine((data) => PAYMENT_METHODS.includes(data), {
+    message: 'Invalid payment method',
+  }),
+  shippingAddress: shippingAddressSchema,
+});
+
+// Schema for inserting an order item
+export const insertOrderItemSchema = z.object({
+  productId: z.string(),
+  slug: z.string(),
+  image: z.string(),
+  name: z.string(),
+  price: currency,
+  qty: z.number(),
+});
+
+// Schema for the PayPal paymentResult
+export const paymentResultSchema = z.object({
+  id: z.string(),
+  status: z.string(),
+  email_address: z.string(),
+  pricePaid: z.string(),
+});
+
+// Schema forupdating the user profile
+export const updateProfileSchema = z.object({
+  name: z.string().min(3,'Name must be at least 3 characters'),
+  email: z.string().min(3,'Email must be at least 3 characters'),
+});
