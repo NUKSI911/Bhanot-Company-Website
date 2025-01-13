@@ -18,6 +18,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 const ProfileForm = () => {
   const { data: session, update } = useSession();
+
   const form = useForm<UserProfile>({
     resolver: zodResolver(updateProfileSchema),
     defaultValues: {
@@ -48,7 +49,6 @@ const ProfileForm = () => {
     };
 
     await update(newSession);
-
     toast({
       description: res.message,
     });
@@ -64,13 +64,14 @@ const ProfileForm = () => {
           <FormField
             control={form.control}
             name="email"
-            render={() => (
+            render={({field}) => (
               <FormItem className="w-full">
                 <FormControl>
                   <Input
                     disabled
                     placeholder="Enter Email"
                     className="input-field"
+                    {...field}
                   />
                 </FormControl>
                 <FormMessage />
@@ -81,10 +82,10 @@ const ProfileForm = () => {
           <FormField
             control={form.control}
             name="name"
-            render={() => (
+            render={({field}) => (
               <FormItem className="w-full">
                 <FormControl>
-                  <Input placeholder="Name" className="input-field" />
+                  <Input placeholder="Name" className="input-field" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

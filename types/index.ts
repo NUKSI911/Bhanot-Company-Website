@@ -14,10 +14,11 @@ export type PaymentMethod = z.infer<typeof paymentMethodSchema>
 export type OrderItem = z.infer<typeof insertOrderItemSchema>
 export type Order = z.infer<typeof insertOrderSchema> & {
     id:string;
-    createdAt:Date;
+    createdAt:Date|null;
     isPaid:boolean;
     isDelivered:boolean |null;
     deliveredAt:Date | null;
+    paidAt:Date | null;
     orderitems:OrderItem[];
     user:{name:string,email:string}
 }

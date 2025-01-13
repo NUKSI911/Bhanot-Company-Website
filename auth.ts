@@ -31,7 +31,7 @@ export const config = {
             email: credentials.email as string,
           },
         });
-        if (user && user.password) {
+        if (user && user?.password) {
           const isMatch = compareSync(
             credentials.password as string,
             user.password
@@ -54,13 +54,13 @@ export const config = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async session({ session, user, token, trigger }: any) {
       session.user = {
-        ...session.user,
+        ...session?.user,
         id: token?.sub || user?.id,
         role: token.role,
         name: token.name,
       };
 
-      if (trigger === "update") {
+      if (trigger === "update" && user) {
         session.user.name = user.name;
       }
       return session;
@@ -83,7 +83,7 @@ export const config = {
             },
           });
         }
-        if (trigger === "update" || session.user.name) {
+        if (trigger === "update" || session?.user?.name) {
           token.name = session?.user?.name;
         }
 

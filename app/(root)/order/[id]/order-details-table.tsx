@@ -24,8 +24,8 @@ import {
 import {
   createPayPalOrder,
   approvePayPalOrder,
-  updateOrderToPaidCOD,
-  deliverOrder,
+  // updateOrderToPaidCOD,
+  // deliverOrder,
 } from '@/lib/actions/order.actions';
 // import StripePayment from './stripe-payment';
 
@@ -94,7 +94,7 @@ const OrderDetailsTable = ({
   // Button to mark order as paid
   const MarkAsPaidButton = () => {
     const [isPending, startTransition] = useTransition();
-    const { toast } = useToast();
+    // const { toast } = useToast();
 
     return (
       <Button
@@ -102,11 +102,11 @@ const OrderDetailsTable = ({
         disabled={isPending}
         onClick={() =>
           startTransition(async () => {
-            const res = await updateOrderToPaidCOD(order.id);
-            toast({
-              variant: res.success ? 'default' : 'destructive',
-              description: res.message,
-            });
+            // const res = await updateOrderToPaidCOD(order.id);
+            // toast({
+            //   variant: res.success ? 'default' : 'destructive',
+            //   description: res.message,
+            // });
           })
         }
       >
@@ -118,7 +118,7 @@ const OrderDetailsTable = ({
   // Button to mark order as delivered
   const MarkAsDeliveredButton = () => {
     const [isPending, startTransition] = useTransition();
-    const { toast } = useToast();
+    // const { toast } = useToast();
 
     return (
       <Button
@@ -126,11 +126,11 @@ const OrderDetailsTable = ({
         disabled={isPending}
         onClick={() =>
           startTransition(async () => {
-            const res = await deliverOrder(order.id);
-            toast({
-              variant: res.success ? 'default' : 'destructive',
-              description: res.message,
-            });
+            // const res = await deliverOrder(order.id);
+            // toast({
+            //   variant: res.success ? 'default' : 'destructive',
+            //   description: res.message,
+            // });
           })
         }
       >
@@ -187,7 +187,7 @@ const OrderDetailsTable = ({
                 </TableHeader>
                 <TableBody>
                     {/*  */}
-                  {orderitems.map((item:any) => (
+                  {orderitems.map((item) => (
                     <TableRow key={item.slug}>
                       <TableCell>
                         <Link

@@ -23,7 +23,7 @@ const UserButton = async () => {
 
   const firstInitial = session.user?.name?.charAt(0).toUpperCase() ?? "U";
   const secondInitial =
-    session.user?.name?.split(" ")[1].charAt(0).toLocaleUpperCase() ?? " ";
+    session.user?.name?.split(" ")[1]?.charAt(0)?.toLocaleUpperCase() ?? " ";
   return (
     <div className="flex items-center gap-2">
       <DropdownMenu>
@@ -49,14 +49,22 @@ const UserButton = async () => {
               </p>
             </div>
           </DropdownMenuLabel>
+          {session.user.role === "admin" && (
+            <DropdownMenuItem>
+              <Link href="/admin/overview" className="w-full">
+                Admin Overview
+              </Link>
+            </DropdownMenuItem>
+          )}
+
           <DropdownMenuItem>
-            <Link href='/user/profile' className="w-full">
-            User Profile
+            <Link href="/user/profile" className="w-full">
+              User Profile
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Link href='/user/orders' className="w-full">
-            Order History
+            <Link href="/user/orders" className="w-full">
+              Order History
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem className="p-0 mb-1">
