@@ -3,7 +3,7 @@ import { getOrderById } from "@/lib/actions/order.actions";
 import { notFound } from "next/navigation";
 import OrderDetailsTable from "./order-details-table";
 import { ShippingAddress } from "@/types";
-// import { auth } from '@/auth';
+import { auth } from "@/auth";
 // import Stripe from 'stripe';
 
 export const metadata: Metadata = {
@@ -20,7 +20,7 @@ const OrderDetailsPage = async (props: {
   const order = await getOrderById(id);
   if (!order) notFound();
 
-  //   const session = await auth();
+    const session = await auth();
 
   //   let client_secret = null;
 
@@ -39,7 +39,7 @@ const OrderDetailsPage = async (props: {
 
   return (
     <OrderDetailsTable
-      isAdmin={false}
+      isAdmin={session?.user.role==='admin' ||false}
       order={{
         ...order,
         shippingAddress: order.shippingAddress as ShippingAddress,

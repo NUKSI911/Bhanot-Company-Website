@@ -1,4 +1,6 @@
+import { auth } from "@/auth";
 import Pagination from "@/components/shared/pagination";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -7,20 +9,54 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getMyOrders } from "@/lib/actions/order.actions";
+import { deleteOrder, getAllOrders } from "@/lib/actions/order.actions";
 import { currencyFormat, formatDateTime, formatId } from "@/lib/utils";
+import { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
+import DeleteDialog from "@/components/shared/delete-dialog";
+export const metaData: Metadata = {
+  title: "Admin Orders",
+};
 
-const OrdersPage = async (props: {
-  searchParams: Promise<{ page: string }>;
+const AdminOrdersPage = async (props: {
+  searchParams: Promise<{
+    page: string;
+    query: string;
+    category: string;
+  }>;
 }) => {
-  const { page } = await props.searchParams;
+  const searchParams = await props.searchParams;
+  const page = Number(searchParams.page) || 1;
+  const searchText = searchParams.query || '';
 
-  const orders = await getMyOrders({ page: Number(page) || 1 });
+  const session = await auth();
 
+  if (session?.user.role !== "admin") {
+    notFound();
+  }
+
+  const orders = await getAllOrders({
+    page: Number(page),
+    query:searchText
+
+  });
   return (
     <div className="space-y-2">
       <h1 className="h2-bold">Orders</h1>
+      <div className='flex items-center gap-3'>
+          <h1 className='h2-bold'>Products</h1>
+          {searchText && (
+            <div>
+              Filtered by <i>&quot;{searchText}&quot;</i>{' '}
+              <Link href='/admin/orders'>
+                <Button variant='outline' size='sm'>
+                  Remove Filter
+                </Button>
+              </Link>
+            </div>
+          )}
+        </div>
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>
@@ -51,9 +87,11 @@ const OrdersPage = async (props: {
                     ? formatDateTime(order.deliveredAt).dateTime
                     : "Not Delivered"}
                 </TableCell>
-                <TableCell>
-                  <Link href={`/order/${order.id}`}>
-                  Details</Link>
+                <TableCell >
+                  <Button asChild variant="outline" size="sm" className="mr-2">
+                    <Link href={`/order/${order.id}`}>Details</Link>
+                  </Button>
+                  <DeleteDialog id={order.id} action={deleteOrder} />
                 </TableCell>
               </TableRow>
             ))}
@@ -67,4 +105,4 @@ const OrdersPage = async (props: {
   );
 };
 
-export default OrdersPage;
+export default AdminOrdersPage;

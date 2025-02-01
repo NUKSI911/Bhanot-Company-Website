@@ -17,7 +17,6 @@ export const calcPrice = async (items: CartItem[]) => {
     shippingPrice = round2(itemsPrice > 100 ? 0 : 10),
     taxPrice = round2(0.15 * itemsPrice),
     totalPrice = round2(itemsPrice + shippingPrice + taxPrice);
-console.log("itemprice",itemsPrice)
   return {
     itemsPrice: itemsPrice.toFixed(2),
     taxPrice: taxPrice.toFixed(2),

@@ -89,7 +89,7 @@ model VerificationToken {
 
 model Cart {
   id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  user          User?    @relation(fields: [userId], references: [id])
+  user          User?    @relation(fields: [userId], references: [id],onDelete: Cascade)
   userId        String?  @db.Uuid
   sessionCartId String
   items         Json[]   @default([]) @db.Json
@@ -115,7 +115,7 @@ model Order {
   paidAt          DateTime?   @db.Timestamp(6)
   deliveredAt     DateTime?   @db.Timestamp(6)
   createdAt       DateTime?   @default(now()) @db.Timestamp(6)
-  user            User        @relation(fields: [userId], references: [id])
+  user            User        @relation(fields: [userId], references: [id],onDelete: Cascade)
   orderitems       OrderItem[]
 }
 
@@ -127,7 +127,7 @@ model OrderItem {
   name      String
   slug      String
   image     String
-  order     Order   @relation(fields: [orderId], references: [id])
-  product   Product @relation(fields: [productId], references: [id])
+  order     Order   @relation(fields: [orderId], references: [id],onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id],onDelete: Cascade)
   @@id([orderId, productId], map: "orderitems_orderid_productId_pk")
 }

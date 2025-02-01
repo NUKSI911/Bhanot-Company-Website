@@ -59,8 +59,6 @@ const AddToCart = ({ item, cart }: { item: CartItem; cart?: Cart }) => {
   const existItem =
     cart && cart.items.find((x) => x.productId === item.productId);
 
-  console.log({ existItem });
-
   return existItem ? (
     <div className="flex items-center gap-4 mt-4">
       <Button type="button" variant="outline" onClick={handleRemoveFromCart}>

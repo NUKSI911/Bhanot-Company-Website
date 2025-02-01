@@ -7,7 +7,6 @@ export const metadata = {
 
 const CartPage = async () => {
   const cart = await getMyCart();
-console.log({cart})
   return (
     <>
       <CartTable cart={cart} />
