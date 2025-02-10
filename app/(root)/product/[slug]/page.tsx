@@ -7,11 +7,11 @@ import ProductImages from "@/components/shared/product/product-images";
 import AddToCart from "@/components/shared/product/add-to-cart";
 import { getMyCart } from "@/lib/actions/cart.actions";
 import { Metadata } from "next";
+import Rating from "@/components/shared/product/rating";
 
 export const metadata: Metadata = {
   title: "Product Detail",
 };
-
 
 const ProductDetailPage = async (props: {
   params: Promise<{ slug: string }>;
@@ -37,9 +37,8 @@ const ProductDetailPage = async (props: {
               {product.brand} {product.category}
             </p>
             <h1 className="h3-bold">{product.name}</h1>
-            <p>
-              {product.rating} of {product.numReviews} Reviews
-            </p>
+            <Rating value={Number(product.rating)} />
+            <p>{product.numReviews} reviews</p>
             <div className="flex flex-col sm:flex-row sm:items-center">
               <ProductPrice
                 price={Number(product.price)}
@@ -74,16 +73,17 @@ const ProductDetailPage = async (props: {
 
               {product.stock > 0 && (
                 <div className="flex-center">
-                <AddToCart 
-                cart={cart}
-                item={{
-                  name:product.name,
-                  price: product.price,
-                  slug: product.slug,
-                  productId: product.id,
-                  qty: 1,
-                  image: product.images[0]
-                }} />
+                  <AddToCart
+                    cart={cart}
+                    item={{
+                      name: product.name,
+                      price: product.price,
+                      slug: product.slug,
+                      productId: product.id,
+                      qty: 1,
+                      image: product.images[0],
+                    }}
+                  />
                 </div>
               )}
             </CardContent>

@@ -30,6 +30,7 @@ model Product {
   banner      String?
   createdAt   DateTime    @default(now()) @db.Timestamp(6)
   OrderItem   OrderItem[]
+  Review      Review[]
 }
 
 model User {
@@ -48,6 +49,7 @@ model User {
   account       Account[]
   session       Session[]
   order         Order[]
+  Review        Review[]
 }
 
 model Account {
@@ -89,7 +91,7 @@ model VerificationToken {
 
 model Cart {
   id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  user          User?    @relation(fields: [userId], references: [id],onDelete: Cascade)
+  user          User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId        String?  @db.Uuid
   sessionCartId String
   items         Json[]   @default([]) @db.Json
@@ -115,8 +117,8 @@ model Order {
   paidAt          DateTime?   @db.Timestamp(6)
   deliveredAt     DateTime?   @db.Timestamp(6)
   createdAt       DateTime?   @default(now()) @db.Timestamp(6)
-  user            User        @relation(fields: [userId], references: [id],onDelete: Cascade)
-  orderitems       OrderItem[]
+  user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orderitems      OrderItem[]
 }
 
 model OrderItem {
@@ -127,7 +129,21 @@ model OrderItem {
   name      String
   slug      String
   image     String
-  order     Order   @relation(fields: [orderId], references: [id],onDelete: Cascade)
-  product   Product @relation(fields: [productId], references: [id],onDelete: Cascade)
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
   @@id([orderId, productId], map: "orderitems_orderid_productId_pk")
+}
+
+model Review {
+  id                 String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId             String    @db.Uuid
+  productId          String    @db.Uuid
+  rating             Int
+  title              String
+  description        String
+  isVerifiedPurchase Boolean   @default(true)
+  createdAt        DateTime? @db.Timestamp(6)
+  user               User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product            Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
 }

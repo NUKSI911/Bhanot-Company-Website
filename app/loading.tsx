@@ -1,7 +1,8 @@
 import Image from "next/image";
 import loader from "@/assets/loader.gif";
 
-const LoadingPage = () => {
+const LoadingPage = async () => {
+
   return (
     <div
       style={{
@@ -12,7 +13,7 @@ const LoadingPage = () => {
         width: "100vw",
       }}
     >
-      <Image src={loader} alt="Loading..." height={150} width={150} />
+      <Image src={loader} alt="Loading..." height={300} width={300} />
     </div>
   );
 };

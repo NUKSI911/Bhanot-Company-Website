@@ -1,6 +1,7 @@
 export const APP_NAME = "Bhanot Global Resources";
 export const APP_DESCRIPTION = "Distributor of food and beverages";
 export const APP_URL = "https://bhanotglobal.com";
+export const SERVER_URL = "https://bhanotglobal.com";
 export const APP_LOGO = "/logo.png";
 export const APP_LOGO_ALT = "Bhanot Global Resources logo";
 export const LATEST_PRODUCTS_LIMIT =
@@ -42,3 +43,5 @@ export const productDefaultValues = {
 export const USER_ROLES = process.env.USER_ROLES
   ? process.env.USER_ROLES.split(", ")
   : ["user", "admin"];
+
+  export const SENDER_EMAIL =process.env.SENDER_EMAIL??"onboarding@resend.dev"

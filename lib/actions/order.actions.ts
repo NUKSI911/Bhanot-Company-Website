@@ -7,11 +7,12 @@ import { getMyCart } from "./cart.actions";
 import { getUserById } from "./user.actions";
 import { prisma } from "@/db/prisma";
 import { insertOrderSchema } from "../validators";
-import { CartItem, PaymentResult } from "@/types";
+import { CartItem, PaymentResult, ShippingAddress } from "@/types";
 import { paypal } from "../paypal";
 import { revalidatePath } from "next/cache";
 import { PAGE_SIZE } from "../constant";
 import { Prisma } from "@prisma/client";
+import { sendPurchaseReceipt } from "@/email";
 
 export const createOrder = async () => {
   try {
@@ -240,7 +241,7 @@ export async function updateOrderToPaid({
     });
   });
 
-  const updatedOrder = prisma.order.findFirst({
+  const updatedOrder = await prisma.order.findFirst({
     where: {
       id: orderId,
     },
@@ -255,6 +256,12 @@ export async function updateOrderToPaid({
     },
   });
   if (!updatedOrder) throw new Error("Order Not Found");
+
+  sendPurchaseReceipt({order:{
+    ...updatedOrder,
+    shippingAddress:updatedOrder.shippingAddress as ShippingAddress,
+    paymentResult:updatedOrder.paymentResult as PaymentResult,
+  }})
 }
 
 // Get User Orders
