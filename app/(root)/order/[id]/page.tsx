@@ -44,6 +44,7 @@ const OrderDetailsPage = async (props: {
         ...order,
         shippingAddress: order.shippingAddress as ShippingAddress,
       }}
+      payStackClientSecret = {process.env.NEXT_PUBLIC_PAYSTACK_CLIENT_ID??''}
       stripeClientSecret={client_secret}
       paypalClientId={process.env.PAYPAL_CLIENT_ID || "sb"}
     />

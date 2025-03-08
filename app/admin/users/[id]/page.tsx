@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import UpdateUserForm from "./update-user-form";
 
-export const metaData: Metadata = {
+export const metadata: Metadata = {
   title: "User Details",
 };
 

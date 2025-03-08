@@ -8,24 +8,24 @@ import Link from 'next/link';
 
 const prices = [
   {
-    name: '$1 to $50',
-    value: '1-50',
+    name: '₦1,000 to ₦5,000',
+    value: '1-5000',
   },
   {
-    name: '$51 to $100',
-    value: '51-100',
+    name: '₦5,000 to ₦10,000',
+    value: '5001-10000',
   },
   {
-    name: '$101 to $200',
-    value: '101-200',
+    name: '₦10,000 to ₦20,000',
+    value: '10000-20000',
   },
   {
-    name: '$201 to $500',
-    value: '201-500',
+    name: '₦20,000 to ₦50,000',
+    value: '20001-50000',
   },
   {
-    name: '$501 to $1000',
-    value: '501-1000',
+    name: '₦50,000 to ₦100,000',
+    value: '50001-10000',
   },
 ];
 

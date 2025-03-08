@@ -52,7 +52,7 @@ export function round2(value: number | string) {
 }
 
 const CURRENCY_FORMATTER = Intl.NumberFormat("en-US", {
-  currency: "USD",
+  currency: "NGN",
   minimumFractionDigits: 2,
   style: "currency",
 });

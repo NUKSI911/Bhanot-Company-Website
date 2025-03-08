@@ -12,8 +12,9 @@ const ProductPrice = ({
 
   return (
     <p className={cn("text-2xl", className)}>
-      <span className="text-sm align-super">$</span>
-      {int}<span className="text-sm align-super">.{float}</span>
+      <span className="text-sm align-super">₦</span>
+      {int}
+      <span className="text-sm align-super">.{float}</span>
     </p>
   );
 };

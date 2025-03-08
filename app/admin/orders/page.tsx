@@ -15,7 +15,8 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import DeleteDialog from "@/components/shared/delete-dialog";
-export const metaData: Metadata = {
+
+export const metadata: Metadata = {
   title: "Admin Orders",
 };
 

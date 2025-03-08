@@ -1,6 +1,6 @@
 import ProductPrice from "@/components/shared/product/product-price";
 import { Card, CardContent } from "@/components/ui/card";
-import { getProductsBySlug } from "@/lib/actions/product.actions";
+import { getCategoriesByCategory, getProductsBySlug } from "@/lib/actions/product.actions";
 import { Badge } from "@/components/ui/badge";
 import { notFound } from "next/navigation";
 import ProductImages from "@/components/shared/product/product-images";
@@ -8,6 +8,7 @@ import AddToCart from "@/components/shared/product/add-to-cart";
 import { getMyCart } from "@/lib/actions/cart.actions";
 import { Metadata } from "next";
 import Rating from "@/components/shared/product/rating";
+import ProductCard from "@/components/shared/product/product-card";
 
 export const metadata: Metadata = {
   title: "Product Detail",
@@ -19,10 +20,12 @@ const ProductDetailPage = async (props: {
   const { slug } = await props.params;
 
   const product = await getProductsBySlug(slug);
-  if (!product) {
+  const categories = await getCategoriesByCategory(product?.category??'',product?.id ??'')
+
+  if (!product||!categories) {
     notFound();
   }
-
+console.log(categories)
   const cart = await getMyCart();
 
   return (
@@ -88,6 +91,15 @@ const ProductDetailPage = async (props: {
               )}
             </CardContent>
           </Card>
+        </div>
+      </div>
+
+      <div className="mt-20">
+        <h3 className="h3-bold">Related Products</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-10">
+              {
+                categories.map((product)=>(<ProductCard product={product}  key={product.slug} />))
+              }
         </div>
       </div>
     </section>

@@ -93,6 +93,7 @@ export const createOrder = async () => {
       redirectTo: `/order/${insertedOrderId}`,
     };
   } catch (error) {
+    console.log(error)
     if (isRedirectError(error)) throw error;
     return { success: false, message: formatError(error) };
   }
