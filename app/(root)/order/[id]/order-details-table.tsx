@@ -29,6 +29,7 @@ import {
   updateOrderToDelivered,
 } from "@/lib/actions/order.actions";
 import StripePayment from "./stripe-payment";
+import { useRouter } from "next/navigation";
 
 const OrderDetailsTable = ({
   order,
@@ -59,6 +60,7 @@ const OrderDetailsTable = ({
   } = order;
 
   const { toast } = useToast();
+  const router = useRouter();
 
   const paystackConfig = {
     reference: new Date().getTime().toString(),
@@ -73,7 +75,7 @@ const OrderDetailsTable = ({
           value: order.id,
         },
       ],
-      orderId:order.id
+      orderId: order.id,
     },
   };
 
@@ -164,6 +166,10 @@ const OrderDetailsTable = ({
   const onSuccess = (reference: string) => {
     // Implementation for whatever you want to do with reference and after success call.
     console.log(reference);
+    // Delay the refresh by 3 seconds
+    setTimeout(() => {
+      router.refresh(); // Soft refresh to update server data
+    }, 3000);
   };
 
   // you can call this function anything
